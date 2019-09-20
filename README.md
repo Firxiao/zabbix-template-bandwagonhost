@@ -1,14 +1,20 @@
 # Zabbix template for bandwagonhost
 
-# Features:
+## Features
 
 - support multiple hosts
 - auto discovery
 
-# Monitoring items
+## Monitoring items
 
 - data counter
 - data next reset
 - plan monthly data
 - last days
-- used percentages
+- used percentage
+
+## Install via ansible playbook
+
+```bash
+ansible -i hosts install.yml
+```

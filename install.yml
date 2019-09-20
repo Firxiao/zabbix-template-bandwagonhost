@@ -1,0 +1,43 @@
+---
+- hosts: all
+  become: yes
+
+  tasks:
+  - name: Copy requirements.txt to /tmp
+    copy:
+      src: requirements.txt
+      dest: /tmp/requirements.txt
+
+  - name: Install python3 dependency
+    pip:
+      executable: pip3
+      requirements: /tmp/requirements.txt 
+      extra_args: -i https://mirrors.aliyun.com/pypi/simple/
+
+  - name: Install bandwagonhost.py to /usr/local/bin/
+    copy: 
+      src: bandwagonhost.py
+      dest: /usr/local/bin/bandwagonhost.py
+      mode: 0775
+      owner: root
+
+  - name: Install userparameter_bandwagonhost.conf to /etc/zabbix/zabbix_agentd.d/
+    copy:
+      src: userparameter_bandwagonhost.conf
+      dest: /etc/zabbix/zabbix_agentd.d/userparameter_bandwagonhost.conf
+    notify:
+      - restart zabbix-agent
+  
+  - name: Install config.yml to /etc/zabbix/zabbix_agentd.d/
+    copy:
+      src: config.yml
+      dest: /etc/zabbix/zabbix_agentd.d/config.yml
+      owner: zabbix
+      mode: 0600
+
+
+  handlers:
+  - name: restart zabbix-agent
+    service:
+      name: zabbix-agent
+      state: restarted
