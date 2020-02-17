@@ -1,4 +1,8 @@
 ---
-server_name:
+server01:
+  veid: veid
+  api_key: xxxxxxx
+
+server02:
   veid: veid
   api_key: xxxxxxx
